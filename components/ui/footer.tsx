@@ -1,12 +1,37 @@
 'use client';
+
 import { motion } from 'framer-motion';
 import { useTheme } from 'next-themes';
-import { Home, User, FolderOpen, FileText, Sun, Moon, Monitor, Github, Linkedin, Mail, Users, Youtube, Briefcase, Menu, X, BookOpen, ChevronUp } from 'lucide-react';
+import {
+  Home,
+  User,
+  FolderOpen,
+  FileText,
+  Sun,
+  Moon,
+  Monitor,
+  Github,
+  Linkedin,
+  Mail,
+  Users,
+  Youtube,
+  Briefcase,
+  Menu,
+  X,
+  BookOpen,
+  ChevronUp,
+} from 'lucide-react';
 import { FloatingDock } from '@/components/ui/floating-dock';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useState, useEffect } from 'react';
 
-type Theme = "light" | "dark" | "system";
+type Theme = 'light' | 'dark' | 'system';
+
+type SocialLink = {
+  name: string;
+  href: string;
+  icon: React.ReactNode;
+};
 
 const Footer = () => {
   const { theme, setTheme } = useTheme();
@@ -16,19 +41,15 @@ const Footer = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isNearBottom, setIsNearBottom] = useState(false);
 
-  // Ensure component is mounted to avoid hydration issues
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  // Scroll detection to show up arrow when near bottom
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const scrollHeight = document.documentElement.scrollHeight;
       const clientHeight = document.documentElement.clientHeight;
-
-      // Check if we're within 200px of the bottom
       const distanceFromBottom = scrollHeight - scrollTop - clientHeight;
       setIsNearBottom(distanceFromBottom <= 200);
     };
@@ -54,293 +75,129 @@ const Footer = () => {
     }
   };
 
-  const themes: Theme[] = ["light", "dark", "system"];
+  const themes: Theme[] = ['light', 'dark', 'system'];
 
-  const socialLinks = [
+  const socialLinks: SocialLink[] = [
     {
-      name: "GitHub",
-      href: "https://github.com/DARKCYBERCSE",
+      name: 'GitHub',
+      href: 'https://github.com/DARKCYBERCSE',
       icon: <Github className="h-4 w-4" />,
     },
     {
-      name: "LinkedIn",
-      href: "https://www.linkedin.com/in/muthurajc/",
+      name: 'LinkedIn',
+      href: 'https://www.linkedin.com/in/muthurajc/',
       icon: <Linkedin className="h-4 w-4" />,
     },
     {
-      name: "YouTube",
-      href: "https://www.youtube.com/@acesubash",
+      name: 'YouTube',
+      href: 'https://www.youtube.com/@acesubash',
       icon: <Youtube className="h-4 w-4" />,
     },
     {
-      name: "Email",
-      href: "mailto:techsavvy.muthuraj.dev@gmail.com",
+      name: 'Email',
+      href: 'mailto:techsavvy.muthuraj.dev@gmail.com',
       icon: <Mail className="h-4 w-4" />,
     },
   ];
 
   const dockItems = [
-    {
-      title: "Home",
-      icon: <Home className="h-4 w-4" />,
-      href: "/",
-    },
-    {
-      title: "Who Am I?",
-      icon: <User className="h-4 w-4" />,
-      href: "/whoami",
-    },
-    {
-      title: "Projects",
-      icon: <FolderOpen className="h-4 w-4" />,
-      href: "/projects",
-    },
-    {
-      title: "Experience",
-      icon: <Briefcase className="h-4 w-4" />,
-      href: "/experience",
-    },
-    {
-      title: "Blog",
-      icon: <BookOpen className="h-4 w-4" />,
-      href: "/blog",
-    },
-    {
-      title: "Resume",
-      icon: <FileText className="h-4 w-4" />,
-      href: "/uploads/Resume.pdf",
-    },
+    { title: 'Home', icon: <Home className="h-4 w-4" />, href: '/' },
+    { title: 'Who Am I?', icon: <User className="h-4 w-4" />, href: '/whoami' },
+    { title: 'Projects', icon: <FolderOpen className="h-4 w-4" />, href: '/projects' },
+    { title: 'Experience', icon: <Briefcase className="h-4 w-4" />, href: '/experience' },
+    { title: 'Blog', icon: <BookOpen className="h-4 w-4" />, href: '/blog' },
+    { title: 'Resume', icon: <FileText className="h-4 w-4" />, href: '/uploads/Resume.pdf' },
   ];
-
-  const footerVariants = {
-    hidden: {
-      opacity: 0,
-      y: 100,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        delay: 2,
-        ease: [0.23, 1, 0.32, 1] as const,
-      },
-    },
-  };
 
   return (
     <>
-      {/* Mobile Hamburger Menu Overlay */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 md:hidden"
+        <div
+          className="fixed inset-0 bg-black/50 z-50 md:hidden"
           onClick={() => setMobileMenuOpen(false)}
         />
       )}
 
-      {/* Mobile Hamburger Menu */}
-      <motion.div
-        initial={{ x: "-100%" }}
-        animate={{ x: mobileMenuOpen ? 0 : "-100%" }}
-        transition={{ type: "spring", damping: 25, stiffness: 200 }}
-        className="fixed left-0 top-0 h-full w-80 bg-background/95 backdrop-blur-md border-r border-border/50 shadow-xl z-50 md:hidden flex flex-col"
+      <div className="md:hidden fixed bottom-4 left-4 z-50">
+        <button
+          onClick={() => setMobileMenuOpen(true)}
+          className="h-12 w-12 flex items-center justify-center rounded-full bg-background border shadow-lg"
+        >
+          <Menu className="h-5 w-5" />
+        </button>
+      </div>
+
+      <motion.footer
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
       >
-        <div className="flex-1 overflow-y-auto p-6">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-bold text-foreground">Navigation</h2>
+        <div className="flex items-center gap-4">
+
+          {/* Scroll To Top */}
+          {isNearBottom && (
             <button
-              onClick={() => setMobileMenuOpen(false)}
-              className="p-2 rounded-full hover:bg-muted/50 transition-colors"
+              onClick={scrollToTop}
+              className="h-12 w-12 flex items-center justify-center rounded-full bg-background border shadow-lg"
             >
-              <X className="h-5 w-5" />
+              <ChevronUp className="h-5 w-5" />
             </button>
-          </div>
+          )}
 
-          {/* Mobile Navigation Items */}
-          <div className="space-y-4">
-            {dockItems.map((item) => (
-              <a
-                key={item.title}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors"
-              >
-                {item.icon}
-                <span className="font-medium text-foreground">{item.title}</span>
-              </a>
-            ))}
-          </div>
+          {/* Floating Dock */}
+          {!isNearBottom && (
+            <FloatingDock items={dockItems} />
+          )}
 
-          {/* Mobile Social Links */}
-          <div className="mt-8">
-            <h3 className="text-sm font-medium text-muted-foreground mb-4">Connect with me</h3>
-            <div className="space-y-3">
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors ${social.color}`}
-                >
-                  {social.icon}
-                  <span className="font-medium">{social.name}</span>
-                </a>
-              ))}
-            </div>
-          </div>
+          {/* Social Popover */}
+          <Popover open={socialPopoverOpen} onOpenChange={setSocialPopoverOpen}>
+            <PopoverTrigger asChild>
+              <button className="h-12 w-12 flex items-center justify-center rounded-full bg-background border shadow-lg">
+                <Users className="h-4 w-4" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="center" side="top" className="w-56">
+              <div className="space-y-3">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-muted transition-colors"
+                  >
+                    {social.icon}
+                    <span>{social.name}</span>
+                  </a>
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
 
-          {/* Mobile Theme Switcher */}
-          <div className="mt-8">
-            <h3 className="text-sm font-medium text-muted-foreground mb-4">Theme</h3>
-            <div className="space-y-2">
+          {/* Theme Switcher */}
+          <Popover open={themePopoverOpen} onOpenChange={setThemePopoverOpen}>
+            <PopoverTrigger asChild>
+              <button className="h-12 w-12 flex items-center justify-center rounded-full bg-background border shadow-lg">
+                {getThemeIcon()}
+              </button>
+            </PopoverTrigger>
+            <PopoverContent align="center" side="top" className="w-40">
               {themes.map((t) => (
                 <button
                   key={t}
                   onClick={() => {
                     setTheme(t);
-                    setMobileMenuOpen(false);
+                    setThemePopoverOpen(false);
                   }}
-                  className={`w-full flex items-center gap-3 p-3 rounded-lg transition-colors ${mounted && theme === t
-                    ? "bg-primary text-primary-foreground"
-                    : "hover:bg-muted/50"
-                    }`}
+                  className="w-full text-left px-3 py-2 rounded-md hover:bg-muted capitalize"
                 >
-                  {t === "light" && <Sun className="h-4 w-4" />}
-                  {t === "dark" && <Moon className="h-4 w-4" />}
-                  {t === "system" && <Monitor className="h-4 w-4" />}
-                  <span className="capitalize font-medium">{t}</span>
+                  {t}
                 </button>
               ))}
-            </div>
-          </div>
-        </div>
-      </motion.div>
+            </PopoverContent>
+          </Popover>
 
-      <motion.footer
-        initial="hidden"
-        animate="visible"
-        variants={footerVariants}
-        className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-40"
-      >
-        <div className="flex items-center gap-4">
-          {/* Desktop Floating Dock / Up Arrow */}
-          <div className="hidden md:block">
-            {isNearBottom ? (
-              <motion.button
-                onClick={scrollToTop}
-                className="h-12 w-12 flex items-center justify-center rounded-full bg-background/80 backdrop-blur-md border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                title="Back to top"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.3 }}
-              >
-                <ChevronUp className="h-5 w-5" />
-              </motion.button>
-            ) : (
-              <FloatingDock
-                items={dockItems}
-                desktopClassName="bg-background/80 backdrop-blur-md border border-border/50 shadow-lg"
-                mobileClassName="bg-background/80 backdrop-blur-md border border-border/50 shadow-lg"
-              />
-            )}
-          </div>
-
-          {/* Mobile Hamburger Button */}
-          <div className="md:hidden">
-            <motion.button
-              onClick={() => setMobileMenuOpen(true)}
-              className="h-12 w-12 flex items-center justify-center rounded-full bg-background/80 backdrop-blur-md border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 2, duration: 0.3 }}
-            >
-              <Menu className="h-5 w-5" />
-            </motion.button>
-          </div>
-
-          {/* Social Links Popover */}
-          <div className="hidden md:flex">
-            <Popover open={socialPopoverOpen} onOpenChange={setSocialPopoverOpen}>
-              <PopoverTrigger asChild>
-                <motion.button
-                  className="h-12 w-12 flex items-center justify-center rounded-full bg-background/80 backdrop-blur-md border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  title="Social Links"
-                >
-                  <Users className="h-4 w-4" />
-                </motion.button>
-              </PopoverTrigger>
-              <PopoverContent className="w-60 p-4" align="center" side="top">
-                <h3 className="text-sm font-medium text-foreground mb-3">
-                  Connect with me
-                </h3>
-                <div className="space-y-3">
-                  {socialLinks.map((social) => (
-                    <a
-                      key={social.name}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`flex items-center px-3 py-2 text-sm rounded-md hover:bg-muted/50 transition-colors ${social.color}`}
-                    >
-                      {social.icon}
-                      <span className="ml-3">{social.name}</span>
-                    </a>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-          </div>
-
-          {/* Theme Switcher Popover */}
-          <div className="hidden md:flex">
-            <Popover open={themePopoverOpen} onOpenChange={setThemePopoverOpen}>
-              <PopoverTrigger asChild>
-                <motion.button
-                  className="h-12 w-12 flex items-center justify-center rounded-full bg-background/80 backdrop-blur-md border border-border/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  title={`Current theme: ${mounted ? theme : 'system'}`}
-                >
-                  {getThemeIcon()}
-                </motion.button>
-              </PopoverTrigger>
-              <PopoverContent className="w-48 p-2" align="center" side="top">
-                <h3 className="text-sm tracking-tight text-muted-foreground mb-2">
-                  Theme
-                </h3>
-                <div className="space-y-2">
-                  {themes.map((t) => (
-                    <button
-                      key={t}
-                      onClick={() => {
-                        setTheme(t);
-                        setThemePopoverOpen(false);
-                      }}
-                      className={`w-full flex items-center px-3 py-2 text-sm rounded-md transition-colors ${mounted && theme === t
-                        ? "bg-primary text-primary-foreground"
-                        : "hover:bg-muted/50"
-                        }`}
-                    >
-                      {t === "light" && <Sun className="mr-2 h-4 w-4" />}
-                      {t === "dark" && <Moon className="mr-2 h-4 w-4" />}
-                      {t === "system" && <Monitor className="mr-2 h-4 w-4" />}
-                      <span className="capitalize">{t}</span>
-                    </button>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-          </div>
         </div>
       </motion.footer>
     </>
