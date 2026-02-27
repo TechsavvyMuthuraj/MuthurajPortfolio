@@ -114,7 +114,7 @@ export default function HomePage() {
                   </div>
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
-                    <span>B.E(Honors) CSE, 2025</span>
+                    <span>B.E(Honours) CSE, 2025</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Briefcase className="h-4 w-4" />
